@@ -1,3 +1,2 @@
 # :sunny: :cat: :hamster: :rabbit:              
-This repo was creating for experience:
-#auth
+This repo was creating for experience: AUTH
