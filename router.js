@@ -1,10 +1,6 @@
 const getJWTToken = require('./common/assert')[1];
 const jwtCheck = require('./common/assert')[0];
-
-const users = [
-  {id:1, username: "admin", password: "admin" },
-  {id:2, username: "guest", password: "guest" }
-];
+const users = require('./users').users;
 
 module.exports = (app) => {
 
