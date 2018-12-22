@@ -1,63 +1,63 @@
+const express = require('express');
+const router = express.Router();
 const getJWTToken = require('./common/assert')[1];
 const jwtCheck = require('./common/assert')[0];
-const users = require('./users').users;
+const users = require('./users');
 
-module.exports = (app) => {
-
-  app.post('/login', (req, res) => {
-    if (!req.body.username || !req.body.password){
-      res
-        .status(400)
-        .send(`You need a username and password`);
-      return
-    }
-
-    const user = users.find((u) => {
-      return u.username === req.body.username && u.password ===  req.body.password
-    });
-
-    if(!user) {
-      res
-        .status(401)
-        .send('User not found');
-      return;
-    }
-
-    const token = getJWTToken({
-      id: user.id,
-      username: user.username,
-    });
-
+router.post('/login', (req, res) => {
+  if (!req.body.username || !req.body.password) {
     res
-      .status(200)
-      .send({access_token: token});
+      .status(400)
+      .send(`You need a username and password`);
+    return
+  }
+
+  const user = users.find((u) => {
+    return u.username === req.body.username && u.password === req.body.password
   });
 
-  app.get('/status', (req, res) => {
-    const localTime = (new Date()).toLocaleTimeString();
-
+  if (!user) {
     res
-      .status(200)
-      .send(`Server time is ${localTime}. `)
+      .status(401)
+      .send('User not found');
+    return;
+  }
 
+  const token = getJWTToken({
+    id: user.id,
+    username: user.username,
   });
 
-  app.get('/resource', ((req, res)=> {
-    res
-      .status(200)
-      .send('Public page, you can see this');
-  }));
+  res.header('Authorization',token ).sendStatus(200);
+});
 
-  app.get('/resource/status', jwtCheck, ((req, res)=> {
-    res
-      .status(200)
-      .send('Secret page, you should be logged in to see this');
-  }));
+router.get('/status', (req, res) => {
+  const localTime = (new Date()).toLocaleTimeString();
 
-  app.get('*', (req,res) => {
+  res
+    .status(200)
+    .send(`Server time is ${localTime}. `)
 
-    res.sendStatus(404);
+});
 
-  });
+router.get('/resource', ((req, res) => {
+  res
+    .status(200)
+    .send('Public page, you can see this');
+}));
 
-};
+router.get('/resource/status', jwtCheck, ((req, res) => {
+  res
+    .status(200)
+    .send('Secret page, you should be logged in to see this');
+}));
+
+router.get('*', (req, res) => {
+
+  res.sendStatus(404);
+
+});
+
+module.exports = router;
+
+

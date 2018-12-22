@@ -1,6 +1,9 @@
 {
   "name": "AUTH",
   "version": "0.0.1",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
