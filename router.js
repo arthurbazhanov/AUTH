@@ -7,7 +7,7 @@ const users = require('./users');
 router.post('/login', (req, res) => {
   if (!req.body.username || !req.body.password) {
     res
-      .status(400)
+      .sendStatus(400)
       .send(`You need a username and password`);
     return
   }
@@ -18,7 +18,7 @@ router.post('/login', (req, res) => {
 
   if (!user) {
     res
-      .status(401)
+      .sendStatus(401)
       .send('User not found');
     return;
   }
@@ -35,20 +35,20 @@ router.get('/status', (req, res) => {
   const localTime = (new Date()).toLocaleTimeString();
 
   res
-    .status(200)
+    .sendStatus(200)
     .send(`Server time is ${localTime}. `)
 
 });
 
 router.get('/resource', ((req, res) => {
   res
-    .status(200)
+    .sendStatus(200)
     .send('Public page, you can see this');
 }));
 
 router.get('/resource/status', jwtCheck, ((req, res) => {
   res
-    .status(200)
+    .sendStatus(200)
     .send('Secret page, you should be logged in to see this');
 }));
 
