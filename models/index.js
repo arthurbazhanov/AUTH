@@ -17,7 +17,7 @@ fs
 
     fs
       .readdirSync(path.join(__dirname, file))
-      .filter(schema => schema.indexOf('.') !== 0 && schema !== basename && schema.slice(-3) === '.js')
+      .filter(schema => schema.indexOf('.') !== 0 && schema !== basename && schema !== 'handler.js' && schema.slice(-3) === '.js')
       .forEach((item) => {
         const model = sequelize.import(path.join(pathToLayer, item));
         db[model.name] = model;
