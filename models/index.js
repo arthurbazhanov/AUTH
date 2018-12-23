@@ -10,21 +10,27 @@ let db = {};
 
 fs
   .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !==0 && (file !== basename) && (file.slice(-3) ==='.js'));
-  })
+  .filter(file => file.slice(-3) !== '.js')
   .forEach(file => {
-    const model = sequelize['import'](path.join(__dirname, file));
-    db[model.name] = model;
-  });
+
+    const pathToLayer = path.join(__dirname, file);
+
+    fs
+      .readdirSync(path.join(__dirname, file))
+      .filter(schema => schema.indexOf('.') !== 0 && schema !== basename && schema.slice(-3) === '.js')
+      .forEach((item) => {
+        const model = sequelize.import(path.join(pathToLayer, item));
+        db[model.name] = model;
+      });
 
     Object.keys(db).forEach(modelName => {
-      if(db[modelName].associate){
+      if (db[modelName].associate) {
         db[modelName].associate(db);
       }
     });
+  });
 
-    db.sequelize = sequelize;
-    db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-    module.exports = db;
+module.exports = db;

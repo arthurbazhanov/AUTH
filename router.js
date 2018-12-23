@@ -2,18 +2,18 @@ const express = require('express');
 const router = express.Router();
 const getJWTToken = require('./common/assert')[1];
 const jwtCheck = require('./common/assert')[0];
-const models = require('./models');
+const { Users} = require('./models');
 
 router.post('/registration', (req, res) => {
 
   let usersInfo = req.body;
   let email = usersInfo.email;
 
-  return models.Users.findOne({ where: { email: email } })
+  return Users.findOne({ where: { email: email } })
     .then(user => {
       if (!user) {
         res.sendStatus(200);
-        return models.Users.create(usersInfo);
+        return Users.create(usersInfo);
       }
       res.send('User has already registered')
     })
