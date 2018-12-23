@@ -2,29 +2,35 @@
 
 const { Users } = require('./../../models/index');
 const getJWTToken = require('./../../common/assert')[1];
-
+const hashPassword = require('./../../common/assert')[2];
 
 class UsersDao {
 
-  createUser(req,res) {
+  createUser(req, res) {
 
-    let usersInfo = req.body;
-    let email = usersInfo.email;
+    let email = req.body.email;
+    let pass = req.body.password;
+    let password = hashPassword(pass);
 
     return Users.findOne({ where: { email: email } })
       .then(user => {
         if (!user) {
           res.sendStatus(200);
-          return Users.create(usersInfo);
+          return Users.create({
+            email,
+            username: req.body.username,
+            password,
+          });
         }
-         res.send('User has already been registered')
+        res.send('User has already been registered')
       })
   }
 
   loginUser(req, res) {
 
     let email = req.body.email;
-    let password = req.body.password;
+    let pass = req.body.password;
+    let password = hashPassword(pass);
 
     return Users.findOne({ where: { email } })
       .then(user => {

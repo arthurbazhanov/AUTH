@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const jwtCheck = require('./common/assert')[0];
-const {UsersDaoHandler} = require('./models/handlers');
+const { UsersDaoHandler } = require('./models/handlers');
 
-router.post('/registration', (req, res) => UsersDaoHandler.createUser(req,res));
+router.post('/registration', (req, res) => UsersDaoHandler.createUser(req, res));
 router.post('/login', (req, res) => UsersDaoHandler.loginUser(req, res));
 
 router.get('/status', (req, res) => {
