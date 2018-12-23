@@ -2,33 +2,41 @@ const express = require('express');
 const router = express.Router();
 const getJWTToken = require('./common/assert')[1];
 const jwtCheck = require('./common/assert')[0];
-const users = require('./users');
+const models = require('./models');
+
+router.post('/registration', (req, res) => {
+
+  let usersInfo = req.body;
+  let email = usersInfo.email;
+
+  return models.Users.findOne({ where: { email: email } })
+    .then(user => {
+      if (!user) {
+        res.sendStatus(200);
+        return models.Users.create(usersInfo);
+      }
+      res.send('User has already registered')
+    })
+});
 
 router.post('/login', (req, res) => {
-  if (!req.body.username || !req.body.password) {
-    res
-      .sendStatus(400)
-      .send(`You need a username and password`);
-    return
-  }
 
-  const user = users.find((u) => {
-    return u.username === req.body.username && u.password === req.body.password
-  });
+  let email = req.body.email;
+  let password = req.body.password;
 
-  if (!user) {
-    res
-      .sendStatus(401)
-      .send('User not found');
-    return;
-  }
-
-  const token = getJWTToken({
-    id: user.id,
-    username: user.username,
-  });
-
-  res.header('Authorization',token ).sendStatus(200);
+  return models.Users.findOne({ where: { email } })
+    .then(user => {
+      if (user) {
+        if (user.password === password) {
+          const token = getJWTToken({
+            username: user.username,
+            email: user.email,
+          });
+          res.header('Authorization', token);
+          return res.json(user)
+        }
+      }
+    })
 });
 
 router.get('/status', (req, res) => {
