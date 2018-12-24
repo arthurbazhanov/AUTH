@@ -1,2 +1,8 @@
-# :sunny: :cat: :hamster: :rabbit:              
-This repo was creating for experience: AUTH
+# Auth
+
+## Prerequisites
+`npm install`
+
+## Run local server:
+`npm start` 
+
