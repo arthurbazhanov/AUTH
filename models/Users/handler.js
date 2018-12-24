@@ -4,7 +4,11 @@ const { Users } = require('./../../models/index');
 const getJWTToken = require('./../../common/assert')[1];
 const hashPassword = require('./../../common/assert')[2];
 
-class UsersDao {
+class User {
+
+  constructor(name){
+    this.name = name;
+  }
 
   createUser(req, res) {
 
@@ -47,6 +51,23 @@ class UsersDao {
       })
   }
 
+  getStatus(req, res){
+    const localTime = (new Date()).toLocaleTimeString();
+
+    res
+      .send(`Server time is ${localTime}. `)
+  }
+
+  getResource(req, res){
+    res
+      .send('Public page, you can see this');
+  }
+
+  getResourceStatus(req, res){
+    res
+      .send('Secret page, you should be logged in to see this');
+  }
+
 }
 
-module.exports = UsersDao;
+module.exports = User;

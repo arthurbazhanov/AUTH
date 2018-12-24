@@ -18,6 +18,15 @@ app.use((req,res, next) => {
 
 app.use('/', router);
 
+app.use((err, req,res, next) => {
+
+  if (err.code === 'invalid_token' ){
+    console.log('Unauthorized');
+    res.status(401).send('You have invalid token')
+  }
+
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
