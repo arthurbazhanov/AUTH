@@ -5,10 +5,6 @@ const { getJWTToken, hashPassword } = require('./../../common/assert');
 
 class User {
 
-  constructor(name){
-    this.name = name;
-  }
-
   createUser(req, res) {
 
     let email = req.body.email;
