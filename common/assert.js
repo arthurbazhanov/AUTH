@@ -18,4 +18,8 @@ function hashPassword(pass){
     .digest('hex');
 }
 
-module.exports = [jwtCheck, getJWTToken, hashPassword];
+module.exports = {
+  jwtCheck,
+  getJWTToken,
+  hashPassword
+};

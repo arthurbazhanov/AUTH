@@ -1,8 +1,7 @@
 'use strict';
 
 const { Users } = require('./../../models/index');
-const getJWTToken = require('./../../common/assert')[1];
-const hashPassword = require('./../../common/assert')[2];
+const { getJWTToken, hashPassword } = require('./../../common/assert');
 
 class User {
 
@@ -30,7 +29,7 @@ class User {
       })
   }
 
-  loginUser(req, res) {
+   loginUser(req, res) {
 
     let email = req.body.email;
     let pass = req.body.password;
