@@ -19,8 +19,8 @@ function hashPassword(pass) {
     .digest('hex');
 }
 
-function validateEmail(email) {
-  return regExp.test(String(email).toLowerCase());
+function validateEmail(value) {
+  return regExp.test(String(value).toLowerCase());
 }
 
 function encrypt(value) {

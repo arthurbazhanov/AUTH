@@ -9,6 +9,7 @@ class User {
 
     let value = req.body.email;
     let email = encrypt(value);
+    console.log(email);
     let pass = req.body.password;
     let password = hashPassword(pass);
 
@@ -16,7 +17,7 @@ class User {
       .then(user => {
         if (!user) {
 
-          if (validateEmail(email)) {
+          if (validateEmail(value)) {
             return Users.create({
               email,
               username: req.body.username,
@@ -33,7 +34,8 @@ class User {
 
   loginUser(req, res) {
 
-    let email = req.body.email;
+    let value = req.body.email;
+    let email = encrypt(value);
     let pass = req.body.password;
     let password = hashPassword(pass);
 
@@ -49,6 +51,7 @@ class User {
             return res.json(user)
           }
         }
+        res.send(` User is not defined `) ;
       })
   }
 
