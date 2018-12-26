@@ -1,13 +1,14 @@
 'use strict';
 
 const { Users } = require('./../../models/index');
-const { getJWTToken, hashPassword, validateEmail } = require('./../../common/assert');
+const { getJWTToken, hashPassword, validateEmail, encrypt } = require('./../../common/assert');
 
 class User {
 
   createUser(req, res) {
 
-    let email = req.body.email;
+    let value = req.body.email;
+    let email = encrypt(value);
     let pass = req.body.password;
     let password = hashPassword(pass);
 
@@ -23,10 +24,10 @@ class User {
             })
               .then(user => res.json(user));
           }
-           res.send(`Your email ${email} is invalid`)
+          res.send(`Your email ${value} is invalid`)
 
         }
-         res.send('User has already been registered')
+        res.send('User has already been registered')
       })
   }
 
