@@ -1,7 +1,7 @@
 'use strict';
 
 const { Users } = require('./../../models/index');
-const { getJWTToken, hashPassword } = require('./../../common/assert');
+const { getJWTToken, hashPassword, validateEmail } = require('./../../common/assert');
 
 class User {
 
@@ -14,18 +14,23 @@ class User {
     return Users.findOne({ where: { email: email } })
       .then(user => {
         if (!user) {
-          res.sendStatus(200);
-          return Users.create({
-            email,
-            username: req.body.username,
-            password,
-          });
+
+          if (validateEmail(email)) {
+            return Users.create({
+              email,
+              username: req.body.username,
+              password,
+            })
+              .then(user => res.json(user));
+          }
+           res.send(`Your email ${email} is invalid`)
+
         }
-        res.send('User has already been registered')
+         res.send('User has already been registered')
       })
   }
 
-   loginUser(req, res) {
+  loginUser(req, res) {
 
     let email = req.body.email;
     let pass = req.body.password;
@@ -46,19 +51,19 @@ class User {
       })
   }
 
-  getStatus(req, res){
+  getStatus(req, res) {
     const localTime = (new Date()).toLocaleTimeString();
 
     res
       .send(`Server time is ${localTime}. `)
   }
 
-  getResource(req, res){
+  getResource(req, res) {
     res
       .send('Public page, you can see this');
   }
 
-  getResourceStatus(req, res){
+  getResourceStatus(req, res) {
     res
       .send('Secret page, you should be logged in to see this');
   }

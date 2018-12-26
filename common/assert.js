@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const jwtToken = 'mysecretkey';
 const crypto = require('crypto');
 const secret = 'secretKey';
+const regExp = /\S+@\S+\.\S+/;
 
 const jwtCheck = expressjwt({
   secret: jwtToken
@@ -18,8 +19,14 @@ function hashPassword(pass){
     .digest('hex');
 }
 
+function validateEmail(email) {
+  console.log(`validateEmail`);
+  return regExp.test(String(email).toLowerCase());
+}
+
 module.exports = {
   jwtCheck,
   getJWTToken,
-  hashPassword
+  hashPassword,
+  validateEmail
 };
