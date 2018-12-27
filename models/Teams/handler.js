@@ -38,8 +38,14 @@ class Team {
 
     let id = req.params.id;
 
-    return Teams.destroy( {where: { id: id } })
+    return Teams.destroy({ where: { id: id } })
       .then(() => res.send(`Team with id ${id} has removed`))
+  }
+
+  getAllTeams(req, res) {
+
+    return Teams.findAll()
+      .then(teams => res.json(teams))
   }
 }
 

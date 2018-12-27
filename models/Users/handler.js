@@ -9,26 +9,22 @@ class User {
 
     let value = req.body.email;
     let email = encrypt(value);
-    console.log(email);
+    let username = req.body.username;
     let pass = req.body.password;
     let password = hashPassword(pass);
 
-    return Users.findOne({ where: { email: email } })
+    return Users.findOrCreate({
+      where: {
+        email,
+        username,
+        password
+      }
+    })
       .then(user => {
-        if (!user) {
-
-          if (validateEmail(value)) {
-            return Users.create({
-              email,
-              username: req.body.username,
-              password,
-            })
-              .then(user => res.json(user));
-          }
-          res.send(`Your email ${value} is invalid`)
-
+        if (user[1]) {
+          return res.json(user[0])
         }
-        res.send('User has already been registered')
+        res.status(403).send(`User with email: ${value} has already been created`);
       })
   }
 
@@ -51,7 +47,7 @@ class User {
             return res.json(user)
           }
         }
-        res.send(` User is not defined `) ;
+        res.send(` User is not defined `);
       })
   }
 
