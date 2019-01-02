@@ -14,7 +14,6 @@ const initialTeamsLength = teams.length;
 let result = new Array(Math.floor(teams.length / 2));
 for (let i = 0; i < initialTeamsLength; i++) {
   let randomTeam = teams.splice(Math.floor(Math.random() * teams.length), 1)[0];
-  console.log(randomTeam);
   if (i % 2) {
     result[Math.floor(i/2)][1] = randomTeam;
   } else {
