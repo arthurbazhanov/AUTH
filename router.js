@@ -30,6 +30,7 @@ router.get('/tournaments', jwtCheck, (req, res) => TournamentsDaoHandler.getTour
 router.post('/tournaments', jwtCheck, (req, res) => TournamentsDaoHandler.createTournament(req, res));
 router.put('/tournaments/:id', jwtCheck, (req, res) => TournamentsDaoHandler.changeNameTournament(req, res));
 router.delete('/tournaments/:id', jwtCheck, (req, res) => TournamentsDaoHandler.removeTournament(req, res));
+router.post('/tournament/:id', jwtCheck, (req, res) => TournamentsDaoHandler.addTeamToTournaments(req, res));
 
 
 module.exports = router;
