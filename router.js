@@ -20,7 +20,8 @@ router.post('/teams', jwtCheck, (req, res) => TeamsDaoHandler.createTeam(req, re
 router.put('/teams/:id', jwtCheck, (req, res) => TeamsDaoHandler.changeNameTeam(req, res));
 router.delete('/teams/:id', jwtCheck, (req, res) => TeamsDaoHandler.removeTeam(req, res));
 router.get('/teams', jwtCheck, (req, res) => TeamsDaoHandler.getAllTeams(req, res));
-
+router.post('/tournament/team/:id', jwtCheck, (req, res) => TeamsDaoHandler.addTeamToTournaments(req, res));
+router.delete('/tournament/team/:id', jwtCheck, (req, res) => TeamsDaoHandler.removeTeamFromTournaments(req, res));
 
 /**
  * @description Tournaments endpoints
@@ -30,8 +31,6 @@ router.get('/tournaments', jwtCheck, (req, res) => TournamentsDaoHandler.getTour
 router.post('/tournaments', jwtCheck, (req, res) => TournamentsDaoHandler.createTournament(req, res));
 router.put('/tournaments/:id', jwtCheck, (req, res) => TournamentsDaoHandler.changeNameTournament(req, res));
 router.delete('/tournaments/:id', jwtCheck, (req, res) => TournamentsDaoHandler.removeTournament(req, res));
-router.post('/tournament/:id', jwtCheck, (req, res) => TournamentsDaoHandler.addTeamToTournaments(req, res));
-
 
 module.exports = router;
 
