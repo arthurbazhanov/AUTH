@@ -30,27 +30,27 @@ class User {
       })
   }
 
-  loginUser(req, res) {
+  async loginUser(req, res) {
 
     let value = req.body.email;
     let email = encrypt(value);
     let pass = req.body.password;
     let password = hashPassword(pass);
 
-    return Users.findOne({ where: { email } })
-      .then(user => {
-        if (user) {
-          if (user.password === password) {
-            const token = getJWTToken({
-              username: user.username,
-              email: user.email,
-            });
-            res.header('Authorization', token);
-            return res.json(user)
-          }
-        }
-        res.status(400).send(` User is not defined `);
-      })
+    let user = await Users.findOne({ where: { email } });
+
+    if (user) {
+      if (user.password === password) {
+        const token = getJWTToken({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        });
+        res.header('Authorization', token);
+        return res.json(user)
+      }
+    }
+    res.status(400).send(` User is not defined `);
   }
 
   getStatus(req, res) {
