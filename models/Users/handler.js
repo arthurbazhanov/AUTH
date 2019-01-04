@@ -5,29 +5,27 @@ const { getJWTToken, hashPassword, validateEmail, encrypt } = require('./../../c
 
 class User {
 
-  createUser(req, res) {
+  async createUser(req, res) {
 
     let value = req.body.email;
     let email = encrypt(value);
     let pass = req.body.password;
     let password = hashPassword(pass);
 
-    return Users.findOne({ where: { email } })
-      .then(user => {
-        if (!user) {
+    let user = await Users.findOne({ where: { email } });
 
-          if (validateEmail(value)) {
-            return Users.create({
-              email,
-              username: req.body.username,
-              password
-            })
-              .then(() => res.status(200).send(` User successfully registered `));
-          }
-          res.status(400).send(`User with email: ${value} is not valid`);
-        }
-        res.status(400).send(`User with email: ${value} has already been created`);
-      })
+    if (!user) {
+      if (validateEmail(value)) {
+        Users.create({
+          email,
+          username: req.body.username,
+          password
+        });
+        res.status(200).send('User successfully registered');
+      }
+      res.status(400).send(`User with email: ${value} is not valid`);
+    }
+    res.status(400).send(`User with email: ${value} has already been created`);
   }
 
   async loginUser(req, res) {
@@ -51,6 +49,24 @@ class User {
       }
     }
     res.status(400).send(` User is not defined `);
+  }
+
+  async removeUser(req, res) {
+
+    let userId = req.params.id;
+
+    let user = await Users.findOne({ where: { id: userId } });
+
+    if (!user) {
+      return res.status(406).send(`User with id ${userId} is not defined`)
+    }
+
+    let removedUsers = Users.destroy({ where: { id: userId } });
+
+    if (!removedUsers) {
+      return res.status(406).send(` Error `)
+    }
+   return res.status(200).send(`User with id ${userId} successfully deleted`)
   }
 
   getStatus(req, res) {
