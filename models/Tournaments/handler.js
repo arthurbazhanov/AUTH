@@ -5,24 +5,23 @@ const { Tournaments } = require('./../../models/index');
 
 class Tournament {
 
-  createTournament(req, res) {
+  async createTournament(req, res) {
 
     let nameTournament = req.body.nameTournament;
 
-    return Tournaments.findOrCreate({ where: { nameTournament: nameTournament } })
-      .then(tournament => {
-        if (tournament[1]) {
-          return res.json(tournament[0])
-        }
-        res.status(403).send(`Tournament with name ${nameTournament} has already been created`);
-      });
+    let tournament = await Tournaments.findOrCreate({ where: { nameTournament: nameTournament } });
+
+    if (tournament[1]) {
+      return res.json(tournament[0])
+    }
+    return res.status(403).send(`Tournament with name ${nameTournament} has already been created`);
   }
 
   async getTournament(req, res) {
 
     let tournaments = await Tournaments.findAll();
 
-    if(_.isEmpty(tournaments)){
+    if (_.isEmpty(tournaments)) {
       return res.status(401).send('Not found teams')
     }
     return res.json(tournaments)
