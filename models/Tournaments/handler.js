@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const { Tournaments } = require('./../../models/index');
 
 class Tournament {
@@ -17,11 +18,14 @@ class Tournament {
       });
   }
 
-  getTournament(req, res) {
+  async getTournament(req, res) {
 
-    Tournaments.findAll()
-      .then(tournaments => res.json(tournaments))
+    let tournaments = await Tournaments.findAll();
 
+    if(_.isEmpty(tournaments)){
+      return res.status(401).send('Not found teams')
+    }
+    return res.json(tournaments)
   }
 
   changeNameTournament(req, res) {
