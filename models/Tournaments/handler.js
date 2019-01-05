@@ -27,19 +27,26 @@ class Tournament {
     return res.json(tournaments)
   }
 
-  changeNameTournament(req, res) {
+  async changeNameTournament(req, res) {
 
     let id = req.params.id;
     let name = req.body.name;
 
-    return Tournaments.findById(id)
-      .then(tournaments => {
-        return tournaments.update({
-          name,
-        })
-          .then(tournaments => res.json(tournaments));
-      })
-      .catch(() => res.send(`validation error`))
+    let tournament = await Tournaments.findById(id);
+
+    if (_.isEmpty(tournament)) {
+      return res.status(401).send(`Team with id ${id} not found`)
+    }
+
+    if (tournament.nameTournament === name) {
+      return res.status(406).send(`This team has already that name`)
+    }
+
+    let nameTournament = await tournament.update({
+      nameTournament: name
+    });
+
+    return res.json(nameTournament)
   }
 
   removeTournament(req, res) {
