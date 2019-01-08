@@ -1,6 +1,7 @@
 'use strict';
 
 const { Teams, TournamentsTeams, Tournaments } = require('./../../models/index');
+const _ = require('lodash');
 
 class Team {
 
@@ -17,19 +18,30 @@ class Team {
     res.send(`Team ${name} has already created`);
   }
 
-  changeNameTeam(req, res) {
+  async changeNameTeam(req, res) {
 
     let id = req.params.id;
     let name = req.body.name;
 
-    return Teams.findById(id)
-      .then(team => {
-        return team.update({
-          name,
-        })
-          .then(team => res.json(team));
-      })
-      .catch(() => res.send(`validation error`))
+    try {
+      let team = await Teams.findByPk(id);
+
+      if (_.isEmpty(team)) {
+        return res.status(404).send(`Team with id ${id} not found`)
+      }
+
+      if (name === team.name) {
+        return res.status(406).send(`Team with name ${name} has already renamed`)
+      }
+
+      let newName = await team.update({
+        name,
+      });
+      res.json(newName);
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
 
   removeTeam(req, res) {
