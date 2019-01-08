@@ -4,19 +4,17 @@ const { Teams, TournamentsTeams, Tournaments } = require('./../../models/index')
 
 class Team {
 
-  createTeam(req, res) {
+  async createTeam(req, res) {
 
     let name = req.body.name;
 
-    return Teams.findOne({ where: { name: name } })
-      .then(team => {
-        if (!team) {
-          return Teams.create({ where: { name: name } })
-            .then(team => res.json(team))
-        }
-        res.send(`Team ${name} has already created`)
-      })
-      .catch(err => err)
+    let team = await Teams.findOne({ where: { name: name } });
+
+    if (!team) {
+      let newTeam = await Teams.create({ name: name });
+      res.json(newTeam)
+    }
+    res.send(`Team ${name} has already created`);
   }
 
   changeNameTeam(req, res) {
