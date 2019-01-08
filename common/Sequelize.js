@@ -4,11 +4,11 @@ const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(
   'testshema',
-  'root',
-  'root',
+  'postgres',
+  'postgres',
   {
     host: 'localhost',
-    dialect: 'mysql',
+    dialect: 'postgres',
 
     pool: {
       max: 5,
