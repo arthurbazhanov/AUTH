@@ -44,12 +44,19 @@ class Team {
     }
   }
 
-  removeTeam(req, res) {
+  async removeTeam(req, res) {
 
     let id = req.params.id;
 
-    return Teams.destroy({ where: { id: id } })
-      .then(() => res.send(`Team with id ${id} has removed`))
+    let team = await Teams.findByPk(id);
+
+    if (_.isEmpty(team)) {
+      return res.status(404).send(`Team with id ${id} not found`)
+    }
+
+    Teams.destroy({ where: { id: id } });
+
+    res.send(`Team with id ${id} has removed`);
   }
 
   getAllTeams(req, res) {
