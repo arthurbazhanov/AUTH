@@ -19,13 +19,13 @@ app.use('/', router);
 
 app.use((err, req,res, next) => {
 
-  if (!req.user) {
-    res.sendStatus(401);
-  }
-
   if (err.code === 'invalid_token' ){
     console.log('Unauthorized');
     res.status(401).send('You have invalid token')
+  }
+
+  if (!req.user) {
+    res.sendStatus(401);
   }
 
 });

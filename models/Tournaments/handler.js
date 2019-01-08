@@ -22,7 +22,7 @@ class Tournament {
     let tournaments = await Tournaments.findAll();
 
     if (_.isEmpty(tournaments)) {
-      return res.status(401).send('Not found teams')
+      return res.status(401).send('Not found tournaments')
     }
     return res.json(tournaments)
   }

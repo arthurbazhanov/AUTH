@@ -80,8 +80,12 @@ class Team {
     let tournament = result[0];
     let team = result[1];
 
-    if (!tournament || !team) {
-      return res.status(406).send(` такого говна нет и в помине`)
+    if (!tournament) {
+      return res.status(406).send(` Tournament with id ${tournamentId} not found`)
+    }
+
+    if (!team) {
+      return res.status(406).send(` Team with id ${teamId} not found`)
     }
 
     let teamTournament = await TournamentsTeams.findOrCreate({
