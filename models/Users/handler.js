@@ -1,7 +1,7 @@
 'use strict';
 
 const { Users } = require('./../../models/index');
-const { getJWTToken, hashPassword, validateEmail, encrypt } = require('./../../common/assert');
+const { getJWTToken, hashPassword, validateEmail, encrypt } = require('../../common/utils');
 
 class User {
 

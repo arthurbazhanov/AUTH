@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { jwtCheck } = require('./common/assert');
+const { jwtCheck } = require('./common/utils');
 const { UsersDaoHandler, TeamsDaoHandler, TournamentsDaoHandler } = require('./models/handlers');
 
 /**
