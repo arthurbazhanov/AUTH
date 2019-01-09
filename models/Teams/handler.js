@@ -64,7 +64,7 @@ class Team {
     try {
       let teams = await Teams.findAll();
 
-      if (_.isEmpty(teams)){
+      if (_.isEmpty(teams)) {
         return res.status(200).send(`Teams has not created yet`)
       }
 
@@ -138,6 +138,31 @@ class Team {
       return res.status(406).send(`Something error`)
     }
     return res.status(200).send(`This team with id ${teamId} has deleted from tournament with id ${tournamentId}`)
+  }
+
+  async qualificationsTeams(req, res) {
+    try {
+      let allTeams = await Teams.findAll();
+
+      let nameTeams = allTeams.map(name => {
+        return name.name;
+      });
+
+      const initialTeamsLength = nameTeams.length;
+      let result = new Array(Math.floor(initialTeamsLength / 2));
+      for (let i = 0; i < initialTeamsLength; i++) {
+        let randomTeam = nameTeams.splice(Math.floor(Math.random() * nameTeams.length), 1)[0];
+        if (i % 2) {
+          result[Math.floor(i / 2)][1] = randomTeam;
+        } else {
+          result[Math.floor(i / 2)] = [randomTeam];
+        }
+      }
+      res.json(result)
+    } catch (err) {
+      console.log(err)
+    }
+
   }
 }
 
