@@ -49,13 +49,24 @@ class Tournament {
     return res.json(nameTournament)
   }
 
-  removeTournament(req, res) {
+  async removeTournament(req, res) {
 
     let id = req.params.id;
+    try {
+      let tournament = await Tournaments.findByPk(id);
 
-    return Tournaments.destroy({ where: { id: id } })
-      .then(() => res.send(`Team with id ${id} has removed`))
+      if (_.isEmpty(tournament)) {
+        return res.status(401).send(`Tournament with id ${id} not found`)
+      }
+
+      await Tournaments.destroy({ where: { id: id } });
+      res.send(`Tournament with id ${id} has removed`)
+    } catch (err) {
+      console.log(err)
+    }
+
   }
+
 }
 
 module.exports = Tournament;
