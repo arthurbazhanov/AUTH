@@ -59,10 +59,15 @@ class Team {
     res.send(`Team with id ${id} has removed`);
   }
 
-  getAllTeams(req, res) {
+  async getAllTeams(req, res) {
 
-    return Teams.findAll()
-      .then(teams => res.json(teams))
+    try {
+      let teams = await Teams.findAll();
+      res.json(teams)
+    } catch (err) {
+      console.log(err)
+    }
+
   }
 
   async addTeamToTournaments(req, res) {
