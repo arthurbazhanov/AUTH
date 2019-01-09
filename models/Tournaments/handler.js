@@ -59,7 +59,12 @@ class Tournament {
         return res.status(401).send(`Tournament with id ${id} not found`)
       }
 
-      await Tournaments.destroy({ where: { id: id } });
+      let removedTournament = await Tournaments.destroy({ where: { id: id } });
+
+      if (!removedTournament) {
+        return res.sendStatus(400)
+      }
+
       res.send(`Tournament with id ${id} has removed`)
     } catch (err) {
       console.log(err)
