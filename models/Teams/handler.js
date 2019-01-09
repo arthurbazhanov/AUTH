@@ -63,7 +63,13 @@ class Team {
 
     try {
       let teams = await Teams.findAll();
-      res.json(teams)
+
+      if (_.isEmpty(teams)){
+        return res.status(200).send(`Tournaments has not created yet`)
+      }
+
+      return res.json(teams)
+
     } catch (err) {
       console.log(err)
     }
