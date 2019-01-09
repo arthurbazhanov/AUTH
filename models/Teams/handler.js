@@ -140,11 +140,36 @@ class Team {
     return res.status(200).send(`This team with id ${teamId} has deleted from tournament with id ${tournamentId}`)
   }
 
-  async qualificationsTeams(req, res) {
-    try {
-      let allTeams = await Teams.findAll();
 
-      let nameTeams = allTeams.map(name => {
+  /**
+   * @description get all teams and qualify
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+
+  async qualificationsTeams(req, res) {
+
+    let tournamentId = req.params.id;
+
+    try {
+
+      let tournaments = await Promise.all([
+
+        Tournaments.findOne({ where: { id: tournamentId } }),
+        TournamentsTeams.findAll({ where: { tournamentId } }),
+      ]);
+
+      let nameTournament = tournaments[0].nameTournament;
+      let teams = tournaments[1];
+
+      let idTeams = teams.map(id => {
+        return id.teamId;
+      });
+
+      let names = await Teams.findAll({ where: { id: idTeams } });
+
+      let nameTeams = names.map(name => {
         return name.name;
       });
 
@@ -158,7 +183,7 @@ class Team {
           result[Math.floor(i / 2)] = [randomTeam];
         }
       }
-      res.json(result)
+      res.json({ nameTournament, result })
     } catch (err) {
       console.log(err)
     }

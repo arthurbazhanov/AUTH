@@ -23,7 +23,7 @@ router.delete('/teams/:id', jwtCheck, (req, res) => TeamsDaoHandler.removeTeam(r
 router.get('/teams', jwtCheck, (req, res) => TeamsDaoHandler.getAllTeams(req, res));
 router.post('/tournament/team/:id', jwtCheck, (req, res) => TeamsDaoHandler.addTeamToTournaments(req, res));
 router.delete('/tournament/team/:id', jwtCheck, (req, res) => TeamsDaoHandler.removeTeamFromTournaments(req, res));
-router.get('/qualification', jwtCheck, (req, res) => TeamsDaoHandler.qualificationsTeams(req, res));
+router.get('/qualification/:id', jwtCheck, (req, res) => TeamsDaoHandler.qualificationsTeams(req, res));
 
 /**
  * @description Tournaments endpoints
