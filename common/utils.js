@@ -4,6 +4,7 @@ const jwtToken = 'mysecretkey';
 const crypto = require('crypto');
 const secret = 'secretKey';
 const regExp = /\S+@\S+\.\S+/;
+const regExpTeam = /\d{5}/;
 
 const jwtCheck = expressjwt({
   secret: jwtToken
@@ -48,11 +49,17 @@ function qualification(teams) {
   return result
 }
 
+function validateName(value) {
+  return regExpTeam.test(String(value))
+}
+
+
 module.exports = {
   jwtCheck,
   getJWTToken,
   hashPassword,
   validateEmail,
   encrypt,
-  qualification
+  qualification,
+  validateName
 };

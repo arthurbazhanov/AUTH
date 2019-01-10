@@ -2,7 +2,7 @@
 
 const { Teams, TournamentsTeams, Tournaments } = require('./../../models/index');
 const _ = require('lodash');
-const { qualification, validateTeamName } = require('./../../common/utils');
+const { qualification, validateName } = require('./../../common/utils');
 
 class Team {
 
@@ -10,7 +10,7 @@ class Team {
 
     let name = req.body.name;
 
-    if(!validateTeamName(name)){
+    if(!validateName(name)){
       return res.status(400).send(`Your team does not have name`)
     }
 
