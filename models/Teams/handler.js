@@ -2,6 +2,7 @@
 
 const { Teams, TournamentsTeams, Tournaments } = require('./../../models/index');
 const _ = require('lodash');
+const { qualification } = require('./../../common/utils');
 
 class Team {
 
@@ -160,8 +161,17 @@ class Team {
         TournamentsTeams.findAll({ where: { tournamentId } }),
       ]);
 
-      let nameTournament = tournaments[0].nameTournament;
       let teams = tournaments[1];
+
+      if (!tournaments[0]) {
+        return res.status(404).send(`Tournament with id ${tournamentId} not found`)
+      }
+
+      let nameTournament = tournaments[0].nameTournament;
+
+      if(!teams) {
+        return res.status(404).send(`Not teams`)
+      }
 
       let idTeams = teams.map(id => {
         return id.teamId;
@@ -173,17 +183,9 @@ class Team {
         return name.name;
       });
 
-      const initialTeamsLength = nameTeams.length;
-      let result = new Array(Math.floor(initialTeamsLength / 2));
-      for (let i = 0; i < initialTeamsLength; i++) {
-        let randomTeam = nameTeams.splice(Math.floor(Math.random() * nameTeams.length), 1)[0];
-        if (i % 2) {
-          result[Math.floor(i / 2)][1] = randomTeam;
-        } else {
-          result[Math.floor(i / 2)] = [randomTeam];
-        }
-      }
-      res.json({ nameTournament, result })
+      let result = qualification(nameTeams);
+
+      res.json({ nameTournament, result });
     } catch (err) {
       console.log(err)
     }

@@ -32,10 +32,27 @@ function encrypt(value) {
   return encrypted += cipher.final('hex');
 }
 
+function qualification(teams) {
+
+  const initialTeamsLength = teams.length;
+  let result = new Array(Math.floor(initialTeamsLength / 2));
+  for (let i = 0; i < initialTeamsLength; i++) {
+    let randomTeam = teams.splice(Math.floor(Math.random() * teams.length), 1)[0];
+    if (i % 2) {
+      result[Math.floor(i / 2)][1] = randomTeam;
+    } else {
+      result[Math.floor(i / 2)] = [randomTeam];
+    }
+  }
+
+  return result
+}
+
 module.exports = {
   jwtCheck,
   getJWTToken,
   hashPassword,
   validateEmail,
-  encrypt
+  encrypt,
+  qualification
 };
