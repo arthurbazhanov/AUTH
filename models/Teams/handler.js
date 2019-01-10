@@ -2,13 +2,17 @@
 
 const { Teams, TournamentsTeams, Tournaments } = require('./../../models/index');
 const _ = require('lodash');
-const { qualification } = require('./../../common/utils');
+const { qualification, validateTeamName } = require('./../../common/utils');
 
 class Team {
 
   async createTeam(req, res) {
 
     let name = req.body.name;
+
+    if(!validateTeamName(name)){
+      return res.status(400).send(`Your team does not have name`)
+    }
 
     let team = await Teams.findOne({ where: { name: name } });
 
