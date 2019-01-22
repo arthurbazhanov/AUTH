@@ -3,6 +3,9 @@
 const { Teams, TournamentsTeams, Tournaments } = require('./../../models/index');
 const _ = require('lodash');
 const { qualification, validateName } = require('./../../common/utils');
+let tournamentIndex = 0;
+let teamIndex = 1;
+
 
 class Team {
 
@@ -93,8 +96,8 @@ class Team {
 
     ]);
 
-    let tournament = result[0];
-    let team = result[1];
+    let tournament = result[tournamentIndex];
+    let team = result[teamIndex];
 
     if (!tournament) {
       return res.status(406).send(` Tournament with id ${tournamentId} not found`)
