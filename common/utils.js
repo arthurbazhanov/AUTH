@@ -1,17 +1,19 @@
 const expressjwt = require('express-jwt');
 const jwt = require('jsonwebtoken');
+
 const jwtToken = 'mysecretkey';
 const crypto = require('crypto');
+
 const secret = 'secretKey';
 const regExp = /\S+@\S+\.\S+/;
 const regExpTeam = /\d{5}/;
 
 const jwtCheck = expressjwt({
-  secret: jwtToken
+  secret: jwtToken,
 });
 
 function getJWTToken(info) {
-  return jwt.sign(info, jwtToken, { expiresIn: 60 * 60 })
+  return jwt.sign(info, jwtToken, { expiresIn: 60 * 60 });
 }
 
 function hashPassword(pass) {
@@ -25,7 +27,6 @@ function validateEmail(value) {
 }
 
 function encrypt(value) {
-
   const key = Buffer(24);
   const iv = Buffer(16);
   const cipher = crypto.createCipheriv('aes-192-cbc', key, iv);
@@ -34,11 +35,10 @@ function encrypt(value) {
 }
 
 function qualification(teams) {
-
   const initialTeamsLength = teams.length;
-  let result = new Array(Math.floor(initialTeamsLength / 2));
+  const result = new Array(Math.floor(initialTeamsLength / 2));
   for (let i = 0; i < initialTeamsLength; i++) {
-    let randomTeam = teams.splice(Math.floor(Math.random() * teams.length), 1)[0];
+    const randomTeam = teams.splice(Math.floor(Math.random() * teams.length), 1)[0];
     if (i % 2) {
       result[Math.floor(i / 2)][1] = randomTeam;
     } else {
@@ -46,11 +46,11 @@ function qualification(teams) {
     }
   }
 
-  return result
+  return result;
 }
 
 function validateName(value) {
-  return regExpTeam.test(String(value))
+  return regExpTeam.test(String(value));
 }
 
 
@@ -61,5 +61,5 @@ module.exports = {
   validateEmail,
   encrypt,
   qualification,
-  validateName
+  validateName,
 };

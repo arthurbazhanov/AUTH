@@ -1,7 +1,6 @@
-'use strict';
+
 
 module.exports = (sequelize, DataTypes) => {
-
   const TournamentsTeams = sequelize.define('TournamentsTeams', {
 
     id: {
@@ -34,5 +33,5 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
   });
 
-  return TournamentsTeams
+  return TournamentsTeams;
 };

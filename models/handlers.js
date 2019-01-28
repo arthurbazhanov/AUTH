@@ -1,4 +1,4 @@
-'use strict';
+
 
 const UsersHandler = require('./Users/handler');
 const TeamsHandler = require('./Teams/handler');

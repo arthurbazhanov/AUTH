@@ -1,17 +1,17 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const sequelize = require('../common/Sequelize');
+
 const basename = path.basename(__filename);
-let db = {};
+const db = {};
 
 fs
   .readdirSync(__dirname)
   .filter(file => file.slice(-3) !== '.js')
-  .forEach(file => {
-
+  .forEach((file) => {
     const pathToLayer = path.join(__dirname, file);
 
     fs
@@ -22,7 +22,7 @@ fs
         db[model.name] = model;
       });
 
-    Object.keys(db).forEach(modelName => {
+    Object.keys(db).forEach((modelName) => {
       if (db[modelName].associate) {
         db[modelName].associate(db);
       }
