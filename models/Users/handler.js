@@ -1,25 +1,25 @@
-'use strict';
+
 
 const { Users } = require('./../../models/index');
-const { getJWTToken, hashPassword, validateEmail, encrypt } = require('../../common/utils');
+const {
+  getJWTToken, hashPassword, validateEmail, encrypt,
+} = require('../../common/utils');
 
 class User {
-
   async createUser(req, res) {
+    const value = req.body.email;
+    const email = encrypt(value);
+    const pass = req.body.password;
+    const password = hashPassword(pass);
 
-    let value = req.body.email;
-    let email = encrypt(value);
-    let pass = req.body.password;
-    let password = hashPassword(pass);
-
-    let user = await Users.findOne({ where: { email } });
+    const user = await Users.findOne({ where: { email } });
 
     if (!user) {
       if (validateEmail(value)) {
         Users.create({
           email,
           username: req.body.username,
-          password
+          password,
         });
         res.status(200).send('User successfully registered');
       }
@@ -29,13 +29,12 @@ class User {
   }
 
   async loginUser(req, res) {
+    const value = req.body.email;
+    const email = encrypt(value);
+    const pass = req.body.password;
+    const password = hashPassword(pass);
 
-    let value = req.body.email;
-    let email = encrypt(value);
-    let pass = req.body.password;
-    let password = hashPassword(pass);
-
-    let user = await Users.findOne({ where: { email } });
+    const user = await Users.findOne({ where: { email } });
 
     if (user) {
       if (user.password === password) {
@@ -45,35 +44,34 @@ class User {
           email: user.email,
         });
         res.header('Authorization', token);
-        return res.json(user)
+        return res.json(user);
       }
     }
-    res.status(400).send(` User is not defined `);
+    res.status(400).send(' User is not defined ');
   }
 
   async removeUser(req, res) {
+    const userId = req.params.id;
 
-    let userId = req.params.id;
-
-    let user = await Users.findOne({ where: { id: userId } });
+    const user = await Users.findOne({ where: { id: userId } });
 
     if (!user) {
-      return res.status(406).send(`User with id ${userId} is not defined`)
+      return res.status(406).send(`User with id ${userId} is not defined`);
     }
 
-    let removedUsers = Users.destroy({ where: { id: userId } });
+    const removedUsers = Users.destroy({ where: { id: userId } });
 
     if (!removedUsers) {
-      return res.status(406).send(` Error `)
+      return res.status(406).send(' Error ');
     }
-   return res.status(200).send(`User with id ${userId} successfully deleted`)
+    return res.status(200).send(`User with id ${userId} successfully deleted`);
   }
 
   getStatus(req, res) {
     const localTime = (new Date()).toLocaleTimeString();
 
     res
-      .send(`Server time is ${localTime}. `)
+      .send(`Server time is ${localTime}. `);
   }
 
   getResource(req, res) {
@@ -85,7 +83,6 @@ class User {
     res
       .send('Secret page, you should be logged in to see this');
   }
-
 }
 
 module.exports = User;

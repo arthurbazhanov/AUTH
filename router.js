@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const { jwtCheck } = require('./common/utils');
 const { UsersDaoHandler, TeamsDaoHandler, TournamentsDaoHandler } = require('./models/handlers');
@@ -35,5 +36,3 @@ router.put('/tournaments/:id', jwtCheck, (req, res) => TournamentsDaoHandler.cha
 router.delete('/tournaments/:id', jwtCheck, (req, res) => TournamentsDaoHandler.removeTournament(req, res));
 
 module.exports = router;
-
-

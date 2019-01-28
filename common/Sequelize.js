@@ -1,4 +1,4 @@
-'use strict';
+
 
 const Sequelize = require('sequelize');
 
@@ -14,9 +14,9 @@ const sequelize = new Sequelize(
       max: 5,
       min: 0,
       acquire: 30000,
-      idle: 10000
+      idle: 10000,
     },
-  }
+  },
 );
 
 sequelize
