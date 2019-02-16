@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(
   'testshema',
   'postgres',
-  'postgres',
+  '171192',
   {
     host: 'localhost',
     dialect: 'postgres',

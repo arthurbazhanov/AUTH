@@ -1,7 +1,7 @@
 
 
 const _ = require('lodash');
-const { Tournaments } = require('./../../models/index');
+const { Tournaments } = require('../db/models');
 
 class Tournament {
   async createTournament(req, res) {

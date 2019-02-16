@@ -1,8 +1,8 @@
 
 
-const { Teams, TournamentsTeams, Tournaments } = require('./../../models/index');
+const { Teams, TournamentsTeams, Tournaments } = require('../db/models');
 const _ = require('lodash');
-const { qualification, validateName } = require('./../../common/utils');
+const { qualification, validateName } = require('../common/utils');
 
 const tournamentIndex = 0;
 const teamIndex = 1;

@@ -1,9 +1,7 @@
-
-
-const { Users } = require('./../../models/index');
+const { Users } = require('../db/models');
 const {
   getJWTToken, hashPassword, validateEmail, encrypt,
-} = require('../../common/utils');
+} = require('../common/utils');
 
 class User {
   async createUser(req, res) {
@@ -12,7 +10,9 @@ class User {
     const pass = req.body.password;
     const password = hashPassword(pass);
 
-    const user = await Users.findOne({ where: { email } });
+    const user = await Users.findOne({
+      where: { email },
+    });
 
     if (!user) {
       if (validateEmail(value)) {

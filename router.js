@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const { jwtCheck } = require('./common/utils');
-const { UsersDaoHandler, TeamsDaoHandler, TournamentsDaoHandler } = require('./models/handlers');
+const { UsersDaoHandler, TeamsDaoHandler, TournamentsDaoHandler } = require('./handlers/handlers');
 
 /**
  * @description Users endpoints
